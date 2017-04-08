@@ -1,4 +1,5 @@
 library("ggplot2")
+library("epitools")
 
 # 1
 #(1)
@@ -119,11 +120,11 @@ L2.3>L3.3
 
 #3
 #(1)
-cont<-matrix(c(22,18,26,14),nrow=2)
+cont<-matrix(c(22,18,26,14),byrow=TRUE,nrow=2)
 row.names(cont)<-c('Male','Female')
 colnames(cont)<-c('High','Low')
 chisq.test(cont,correct = FALSE)
-#Çà°ú¿­ÀÌ Åë°èÀûÀ¸·Î µ¶¸³ÀÎ°¡
+#í–‰ê³¼ì—´ì´ í†µê³„ì ìœ¼ë¡œ ë…ë¦½ì¸ê°€
 
 #(2)
 prop.test(cont)
@@ -133,9 +134,9 @@ prop.test(cont)
 # library(epitools)
 riskratio.wald(cont,correction = FALSE)
 
-estm<-(22/48)/(18/32)
+estm<- (22/40)/(26/40)
 log(estm)
-se_log<-sqrt((26/48)/22 + (14/32)/18)
+se_log<-sqrt((18/40)/22 + (14/40)/26)
 #95% ci for log estimate
 lower<-log(estm)-1.96*se_log ; upper<-log(estm)+1.96*se_log
 #95% ci for estimate(RR)
@@ -153,18 +154,19 @@ exp(lo);exp(up)
 a<-matrix(nrow = 80,ncol = 2)
 colnames(a)<-c('Male','High')
 a[1:40,1]<-1
-a[41:80,1]<-0
 a[1:22,2]<-1
-a[23:40,2]<-0
 a[41:66,2]<-1
 for (k in 1:80)  {
   for (j in 1:2) {
     if (is.na(a[k,j])) a[k,j]=0
   }
 }
+
 df<-data.frame(a)
 cor(df)
 cor.test(df$Male,df$High)
 
 #(6)
-# °ËÁ¤Àº À¯È¿ÇÏÁö ¾Ê´Ù. ÄË´Þ Å¸¿ì??
+# ê²€ì •ì€ ìœ íš¨í•˜ì§€ ì•Šë‹¤.ì¼„ë‹¬ íƒ€ìš°ë¡œ 
+# ë¶€ë¶€ê°„ì˜ í•™ë ¥ì´ ìœ ì‚¬í•œ ì§í‘œë³¸ê³¼
+# ìƒì´í•œ ì§í‘œë³¸ì˜ ìˆ˜ë¥¼ ë¹„êµí•´ë³¸ë‹¤.
